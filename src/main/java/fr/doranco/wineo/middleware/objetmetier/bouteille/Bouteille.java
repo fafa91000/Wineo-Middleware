@@ -1,4 +1,4 @@
-package fr.doranco.wineo.middleware.objetmetier;
+package fr.doranco.wineo.middleware.objetmetier.bouteille;
 
 import java.io.Serializable;
 

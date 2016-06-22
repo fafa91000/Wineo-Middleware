@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.rits.cloning.Cloner;
 
-import fr.doranco.wineo.middleware.objetmetier.Bouteille;
+import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
 
 /**
  * Une cave.
