@@ -1,10 +1,21 @@
 package fr.doranco.wineo.middleware.objetmetier;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class Bouteille implements Cloneable {
+import com.rits.cloning.Cloner;
+
+/**
+ * Une bouteille
+ * 
+ * @author Snekkja JFDC 
+ */
+public class Bouteille implements Cloneable, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	/** Référence unique */
 	private String reference;
@@ -97,16 +108,7 @@ public class Bouteille implements Cloneable {
 
 	@Override
 	public Bouteille clone() {
-		
-		Bouteille clone = new Bouteille();
-		
-		clone.annee = this.annee;
-		clone.contenance = this.contenance;
-		clone.designation = this.designation;
-		clone.recompenses = this.recompenses;
-		clone.reference = this.reference;
-		
-		return clone;
+		return Cloner.shared().deepClone(this); 
 	}
 
 	@Override

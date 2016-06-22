@@ -2,7 +2,6 @@ package fr.doranco.wineo.middleware.objetmetier;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -11,26 +10,37 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.rits.cloning.Cloner;
 
 /**
- * Une collection de {@link Recompense récompenses}.
+ * Une récompense.
  * 
  * @author Snekkja JFDC
  */
-public class Recompenses implements Cloneable, Serializable {
+public class Recompense implements Cloneable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/** Liste de récompenses */
-	private List<Recompense> recompenses;
+	/** Nom */
+	private String nom;
 	
-	/** Poids exprimé en décimal*/
+	/** Année */
+	private Integer annee;
+	
+	/** Poids exprimé en décimal de 0 à 100 */
 	private BigDecimal poids;
 
-	public List<Recompense> getRecompenses() {
-		return recompenses;
+	public String getNom() {
+		return nom;
 	}
 
-	public void setRecompenses(List<Recompense> recompenses) {
-		this.recompenses = recompenses;
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public Integer getAnnee() {
+		return annee;
+	}
+
+	public void setAnnee(Integer annee) {
+		this.annee = annee;
 	}
 
 	public BigDecimal getPoids() {
@@ -44,8 +54,9 @@ public class Recompenses implements Cloneable, Serializable {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
+				.append(this.annee)
+				.append(this.nom)
 				.append(this.poids)
-				.append(this.recompenses)
 				.build();
 	}
 
@@ -56,27 +67,38 @@ public class Recompenses implements Cloneable, Serializable {
 			return false;
 		if (candidat == this)
 			return true;
-		if (!(candidat instanceof Recompenses))
+		if (!(candidat instanceof Recompense))
 			return false;
 		
-		Recompenses autre = (Recompenses) candidat;
+		Recompense autre = (Recompense) candidat;
 		
 		return new EqualsBuilder()
+				.append(this.annee, autre.annee)
+				.append(this.nom, autre.nom)
 				.append(this.poids, autre.poids)
-				.append(this.recompenses, autre.recompenses)
 				.build();
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		return Cloner.shared().deepClone(this);
+	public Recompense clone() {
+		
+		/*Recompense clone = new Recompense();
+		
+		clone.annee = this.annee;
+		clone.nom = this.nom;
+		clone.poids = new BigDecimal(poids.toPlainString());
+		
+		return clone;*/
+		
+		return new Cloner().deepClone(this);
 	}
 
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
+				.append("Nom", this.nom)
+				.append("Année", this.annee)
 				.append("Poids", this.poids)
-				.append("Liste des récompenses", this.recompenses)
 				.build();
 	}
 	
