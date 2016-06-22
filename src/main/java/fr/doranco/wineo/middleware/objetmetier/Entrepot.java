@@ -9,6 +9,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.rits.cloning.Cloner;
 
+import fr.doranco.wineo.middleware.objetmetier.cave.Cave;
+
 /**
  * Un entrepot
  * 

@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import fr.doranco.wineo.middleware.objetmetier.Bouteille;
-import fr.doranco.wineo.middleware.objetmetier.Cave;
+import fr.doranco.wineo.middleware.objetmetier.cave.Cave;
+import fr.doranco.wineo.middleware.objetmetier.cave.PlaceInsuffisanteException;
 
 public interface ICaveService {
 
-	public void ajouterBouteille(Bouteille bouteille, Cave cave)
-			throws PlaceInsuffisanteException, CaveInvalideException, CaveInexistanteException,
-			BouteilleInexistanteException, BouteilleInvalideException;
+	// , CaveInvalideException, CaveInexistanteException, BouteilleInexistanteException, BouteilleInvalideException
+	public void ajouterBouteille(Bouteille bouteille, Cave cave) throws PlaceInsuffisanteException;
 
 	public void retirerBouteille(Bouteille bouteille);
 
