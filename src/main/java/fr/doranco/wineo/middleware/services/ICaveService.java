@@ -7,12 +7,15 @@ import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInvalideException;
 import fr.doranco.wineo.middleware.objetmetier.cave.Cave;
+import fr.doranco.wineo.middleware.objetmetier.cave.CaveInexistanteException;
+import fr.doranco.wineo.middleware.objetmetier.cave.CaveInvalideException;
 import fr.doranco.wineo.middleware.objetmetier.cave.PlaceInsuffisanteException;
 
 public interface ICaveService {
 
 	public void ajouterBouteille(Bouteille bouteille, Cave cave)
-			throws PlaceInsuffisanteException;
+			throws PlaceInsuffisanteException, BouteilleInexistanteException,
+			CaveInexistanteException, BouteilleInvalideException, CaveInvalideException;
 
 	public void retirerBouteille(Bouteille bouteille)
 			throws BouteilleInexistanteException, BouteilleInvalideException;
