@@ -93,7 +93,9 @@ public class CaveServiceTest {
 		bouteilleAjoutee.setDesignation("Beaujolais nouveau");
 		bouteilleAjoutee.setReference("REF_01");
 
-		final Integer contenanceInitiale = caveTestee.getBouteilles().size();
+		// Nous récupérons le nombre de bouteille initial,
+		// avant l'ajout d'une nouvelle bouteille.
+		final Integer nombreBouteilleInitial = caveTestee.getBouteilles().size();
 
 		// Lancement du test
 		caveService.ajouterBouteille(bouteilleAjoutee, caveTestee);
@@ -105,7 +107,7 @@ public class CaveServiceTest {
 		 */
 		Assertions.assertThat(caveTestee.getBouteilles().get(bouteilleAjoutee.getReference()))
 				.isEqualTo(bouteilleAjoutee);
-		Assertions.assertThat(caveTestee.getBouteilles().size()).isEqualTo(contenanceInitiale + 1);
+		Assertions.assertThat(caveTestee.getBouteilles().size()).isEqualTo(nombreBouteilleInitial + 1);
 
 	}
 
@@ -120,6 +122,7 @@ public class CaveServiceTest {
 		bouteilleAjoutee.setDesignation("Beaujolais nouveau");
 		bouteilleAjoutee.setReference("REF_01");
 		
+		// Nous initialisons la capacité maximale de la cave afin qu'elle soit considérée comme pleine.
 		caveTestee.setCapaciteMaximale(caveTestee.getBouteilles().size());
 
 		// Lancement du test

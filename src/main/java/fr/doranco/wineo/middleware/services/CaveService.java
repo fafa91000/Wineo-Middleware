@@ -58,7 +58,9 @@ public class CaveService implements ICaveService {
 		// Nous vérifions qu'il reste de la place.
 		final Set<Cave> caves = entrepot.getCaves();
 		
-		final Cave caveDestinataire = caves.parallelStream()
+		// Lambdas voir :
+		// https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
+		final Cave caveDestinataire = caves.stream()
 			.filter(c -> c.getReference().equals(cave.getReference()))
 			.findFirst()
 			.orElseThrow(CaveInexistanteException::new);
