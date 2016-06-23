@@ -23,7 +23,16 @@ public class CaveService implements ICaveService {
 	/**
 	 * L'entrepot commun des services de gestion de cave.
 	 */
-	private static Entrepot entrepot;
+	private Entrepot entrepot;
+	
+	public CaveService() {
+		super();
+	}
+	
+	public CaveService(Entrepot entrepot) {
+		super();
+		this.entrepot = entrepot;
+	}
 	
 	@Override
 	public void ajouterBouteille(final Bouteille bouteille, final Cave cave)
@@ -49,21 +58,16 @@ public class CaveService implements ICaveService {
 		// Nous vérifions qu'il reste de la place.
 		final Set<Cave> caves = entrepot.getCaves();
 		
-		final Cave caveDestinataire = caves.stream()
+		final Cave caveDestinataire = caves.parallelStream()
 			.filter(c -> c.getReference().equals(cave.getReference()))
 			.findFirst()
-			.orElse(null);
+			.orElseThrow(CaveInexistanteException::new);
 		
-		for () {
-			
-			if () {
-			}
-			
-			break;
-			
-		}
-		
-		// Nous ajoutons la bouteille.
+		if (caveDestinataire.getCapaciteMaximale() > caveDestinataire.getBouteilles().size())
+			// Nous ajoutons la bouteille.
+			caveDestinataire.getBouteilles().put(bouteille.getReference(), bouteille);
+		else
+			throw new PlaceInsuffisanteException("Y a pas de place !");
 		
 	}
 
