@@ -1,5 +1,11 @@
 package fr.doranco.wineo.middleware.services;
 
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -10,13 +16,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import fr.doranco.wineo.middleware.objetmetier.Entrepot;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInvalideException;
 import fr.doranco.wineo.middleware.objetmetier.cave.Cave;
 import fr.doranco.wineo.middleware.objetmetier.cave.CaveInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.cave.CaveInvalideException;
+import fr.doranco.wineo.middleware.objetmetier.cave.Entrepot;
 import fr.doranco.wineo.middleware.objetmetier.cave.PlaceInsuffisanteException;
 
 public class CaveServiceTest {
@@ -169,6 +175,35 @@ public class CaveServiceTest {
 		 */
 		Assertions.assertThat(cave.getBouteilles().containsKey("B1")).isFalse();
 
+	}
+	
+	public void testAjouterBouteillesNominal() throws PlaceInsuffisanteException, BouteilleInexistanteException, CaveInexistanteException, BouteilleInvalideException, CaveInvalideException {
+		
+		// Initialisation du test
+		Bouteille bouteille1 = mock(Bouteille.class);
+		Bouteille bouteille2 = mock(Bouteille.class);
+		Bouteille bouteille3 = mock(Bouteille.class);
+		
+		when(bouteille1.getReference()).thenReturn("REF_A01");
+		when(bouteille2.getReference()).thenReturn("REF_A02");
+		when(bouteille3.getReference()).thenReturn("REF_A03");
+		
+		final Collection<Bouteille> bouteilles = new ArrayList<>();
+		bouteilles.add(bouteille1);
+		bouteilles.add(bouteille2);
+		bouteilles.add(bouteille3);
+		
+		Integer nombreBouteilleInitial = caveTestee.getBouteilles().size();
+		
+		// Lancement du test
+		caveService.ajouterBouteilles(bouteilles, caveTestee);
+		
+		// Vérification du test
+		assertThat(bouteille1).isIn(caveTestee.getBouteilles());
+		assertThat(bouteille2).isIn(caveTestee.getBouteilles());
+		assertThat(bouteille3).isIn(caveTestee.getBouteilles());
+		assertThat(nombreBouteilleInitial + 3).isEqualTo(caveTestee.getBouteilles().size());
+		
 	}
 
 }

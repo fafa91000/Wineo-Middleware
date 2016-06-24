@@ -1,4 +1,4 @@
-package fr.doranco.wineo.middleware.objetmetier;
+package fr.doranco.wineo.middleware.objetmetier.cave;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -8,8 +8,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.rits.cloning.Cloner;
-
-import fr.doranco.wineo.middleware.objetmetier.cave.Cave;
 
 /**
  * Un entrepot

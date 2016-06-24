@@ -1,16 +1,20 @@
 package fr.doranco.wineo.middleware.services;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import fr.doranco.wineo.middleware.objetmetier.Entrepot;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
 import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInvalideException;
 import fr.doranco.wineo.middleware.objetmetier.cave.Cave;
 import fr.doranco.wineo.middleware.objetmetier.cave.CaveInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.cave.CaveInvalideException;
+import fr.doranco.wineo.middleware.objetmetier.cave.Entrepot;
 import fr.doranco.wineo.middleware.objetmetier.cave.PlaceInsuffisanteException;
 
 /**
@@ -18,7 +22,11 @@ import fr.doranco.wineo.middleware.objetmetier.cave.PlaceInsuffisanteException;
  * 
  * @author Snekkja JFDC
  */
+@Stateless
 public class CaveService implements ICaveService {
+	
+	@EJB
+	private IBouteilleService bouteilleService;
 
 	/**
 	 * L'entrepot commun des services de gestion de cave.
@@ -86,7 +94,7 @@ public class CaveService implements ICaveService {
 
 	@Override
 	public List<Bouteille> obtenirBouteille(Predicate<Bouteille> condition, Cave cave) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -123,6 +131,12 @@ public class CaveService implements ICaveService {
 	private boolean validerCave(final Cave candidat) {
 		// Algorithme de validation de cave
 		return true;
+	}
+
+	@Override
+	public void ajouterBouteilles(Collection<Bouteille> bouteilles, Cave cave) throws PlaceInsuffisanteException,
+			BouteilleInexistanteException, CaveInexistanteException, BouteilleInvalideException, CaveInvalideException {
+		
 	}
 
 }
