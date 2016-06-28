@@ -1,6 +1,13 @@
 package fr.doranco.wineo.middleware.objetmetier.bouteille;
 
 import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -13,6 +20,8 @@ import com.rits.cloning.Cloner;
  * 
  * @author Snekkja JFDC 
  */
+@Entity
+@Table(name = "T_BOUTEILLE")
 public class Bouteille implements Cloneable, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,8 +39,10 @@ public class Bouteille implements Cloneable, Serializable {
 	private Integer annee;
 
 	/** Récompenses */
-	private Recompenses recompenses;
+	private List<Recompense> recompenses;
 
+	@Id
+	@Column(name = "BOU_REFERENCE")
 	public String getReference() {
 		return reference;
 	}
@@ -40,6 +51,7 @@ public class Bouteille implements Cloneable, Serializable {
 		this.reference = reference;
 	}
 
+	@Column(name = "BOU_CONTENANCE")
 	public Double getContenance() {
 		return contenance;
 	}
@@ -48,6 +60,7 @@ public class Bouteille implements Cloneable, Serializable {
 		this.contenance = contenance;
 	}
 
+	@Column(name = "BOU_DESIGNATION")
 	public String getDesignation() {
 		return designation;
 	}
@@ -56,6 +69,7 @@ public class Bouteille implements Cloneable, Serializable {
 		this.designation = designation;
 	}
 
+	@Column(name = "BOU_ANNEE")
 	public Integer getAnnee() {
 		return annee;
 	}
@@ -64,11 +78,12 @@ public class Bouteille implements Cloneable, Serializable {
 		this.annee = annee;
 	}
 
-	public Recompenses getRecompenses() {
+	@OneToMany
+	public List<Recompense> getRecompenses() {
 		return recompenses;
 	}
 
-	public void setRecompenses(Recompenses recompenses) {
+	public void setRecompenses(List<Recompense> recompenses) {
 		this.recompenses = recompenses;
 	}
 
