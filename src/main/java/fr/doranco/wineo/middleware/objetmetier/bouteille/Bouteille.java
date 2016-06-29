@@ -78,6 +78,7 @@ public class Bouteille implements Cloneable, Serializable {
 		this.annee = annee;
 	}
 
+	/*
 	@OneToMany
 	public List<Recompense> getRecompenses() {
 		return recompenses;
@@ -86,6 +87,7 @@ public class Bouteille implements Cloneable, Serializable {
 	public void setRecompenses(List<Recompense> recompenses) {
 		this.recompenses = recompenses;
 	}
+	*/
 
 	@Override
 	public int hashCode() {
