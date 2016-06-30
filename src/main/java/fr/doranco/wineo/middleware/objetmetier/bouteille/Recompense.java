@@ -2,6 +2,13 @@ package fr.doranco.wineo.middleware.objetmetier.bouteille;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -14,6 +21,8 @@ import com.rits.cloning.Cloner;
  * 
  * @author Snekkja JFDC
  */
+@Entity
+@Table(name = "T_RECOMPENSE")
 public class Recompense implements Cloneable, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,7 +35,9 @@ public class Recompense implements Cloneable, Serializable {
 	
 	/** Poids exprimé en décimal de 0 à 100 */
 	private BigDecimal poids;
-
+	
+	@Id
+	@Column(name = "REC_NOM")
 	public String getNom() {
 		return nom;
 	}
@@ -35,6 +46,8 @@ public class Recompense implements Cloneable, Serializable {
 		this.nom = nom;
 	}
 
+	@Id
+	@Column(name = "REC_ANNEE")
 	public Integer getAnnee() {
 		return annee;
 	}
@@ -43,6 +56,7 @@ public class Recompense implements Cloneable, Serializable {
 		this.annee = annee;
 	}
 
+	@Column(name = "REC_POIDS")
 	public BigDecimal getPoids() {
 		return poids;
 	}

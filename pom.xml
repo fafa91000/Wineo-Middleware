@@ -128,7 +128,10 @@
 						</goals>
 						<configuration>
 							<filename>${nomPackaging}.jar</filename>
-
+							<hostname>localhost</hostname>
+							<port>9990</port>
+							<username>admin</username>
+							<password>admin</password>
 						</configuration>
 					</execution>
 				</executions>
