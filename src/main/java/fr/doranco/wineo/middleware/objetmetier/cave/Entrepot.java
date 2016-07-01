@@ -3,6 +3,14 @@ package fr.doranco.wineo.middleware.objetmetier.cave;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -14,9 +22,14 @@ import com.rits.cloning.Cloner;
  * 
  * @author Snekkja JFDC
  */
+@Entity
+@Table(name = "T_ENTREPOT")
 public class Entrepot implements Cloneable, Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** Numéro unique de l'entrepot */
+	private int numero;
 
 	/** Ensemble de caves uniques */
 	private Set<Cave> caves;
@@ -24,6 +37,18 @@ public class Entrepot implements Cloneable, Serializable {
 	/** Capacité maximale */
 	private Integer capaciteMaximale;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ENT_NUMERO")
+	public int getNumero() {
+		return numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
+	@OneToMany
 	public Set<Cave> getCaves() {
 		return caves;
 	}
@@ -32,6 +57,7 @@ public class Entrepot implements Cloneable, Serializable {
 		this.caves = caves;
 	}
 
+	@Column(name = "ENT_CAPACITE_MAX")
 	public Integer getCapaciteMaximale() {
 		return capaciteMaximale;
 	}
