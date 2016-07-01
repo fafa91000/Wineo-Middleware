@@ -1,7 +1,12 @@
 package fr.doranco.wineo.middleware.objetmetier.cave;
 
 import java.io.Serializable;
-import java.util.Map;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -16,12 +21,14 @@ import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
  * 
  * @author Snekkja JFDC
  */
+@Entity
+@Table(name = "T_CAVE")
 public class Cave implements Cloneable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	/** Dictionnaire des bouteilles */
-	private Map<String, Bouteille> bouteilles;
+	private List<Bouteille> bouteilles;
 	
 	/** Capacité maximale */
 	private Integer capaciteMaximale;
@@ -32,14 +39,16 @@ public class Cave implements Cloneable, Serializable {
 	/** Nom du propriétaire */
 	private String nomProprietaire;
 
-	public Map<String, Bouteille> getBouteilles() {
+	@OneToMany
+	public List<Bouteille> getBouteilles() {
 		return bouteilles;
 	}
 
-	public void setBouteilles(Map<String, Bouteille> bouteilles) {
+	public void setBouteilles(List<Bouteille> bouteilles) {
 		this.bouteilles = bouteilles;
 	}
 
+	@Column(name = "CAV_CAPACITE_MAX")
 	public Integer getCapaciteMaximale() {
 		return capaciteMaximale;
 	}
@@ -48,6 +57,7 @@ public class Cave implements Cloneable, Serializable {
 		this.capaciteMaximale = capaciteMaximale;
 	}
 
+	@Column(name = "CAV_REFERENCE")
 	public String getReference() {
 		return reference;
 	}
@@ -56,6 +66,7 @@ public class Cave implements Cloneable, Serializable {
 		this.reference = reference;
 	}
 
+	@Column(name = "CAV_NOM_PROPRIETAIRE")
 	public String getNomProprietaire() {
 		return nomProprietaire;
 	}
