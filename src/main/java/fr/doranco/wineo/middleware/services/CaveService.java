@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import fr.doranco.wineo.middleware.dao.BouteilleDao;
+import fr.doranco.wineo.middleware.dao.CaveDao;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInvalideException;
@@ -26,6 +27,9 @@ public class CaveService implements ICaveService {
 	
 	@EJB
 	private BouteilleDao bouteilleDao;
+	
+	@EJB
+	private CaveDao caveDao;
 	
 	@EJB
 	private IBouteilleService bouteilleService;
@@ -51,7 +55,11 @@ public class CaveService implements ICaveService {
 		if (!validerCave(cave))
 			throw new CaveInvalideException();
 		
+		// J'ajoute réellement la bouteille à la cave.
+		cave.getBouteilles().add(bouteille);
+		
 		// Nous persistons maintenant la bouteille fournie.
+		caveDao.modifier(cave);
 		bouteilleDao.persister(bouteille);
 		
 	}
