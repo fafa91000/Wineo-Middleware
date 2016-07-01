@@ -2,19 +2,18 @@ package fr.doranco.wineo.middleware.services;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import fr.doranco.wineo.middleware.dao.BouteilleDao;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInvalideException;
 import fr.doranco.wineo.middleware.objetmetier.cave.Cave;
 import fr.doranco.wineo.middleware.objetmetier.cave.CaveInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.cave.CaveInvalideException;
-import fr.doranco.wineo.middleware.objetmetier.cave.Entrepot;
 import fr.doranco.wineo.middleware.objetmetier.cave.PlaceInsuffisanteException;
 
 /**
@@ -26,22 +25,11 @@ import fr.doranco.wineo.middleware.objetmetier.cave.PlaceInsuffisanteException;
 public class CaveService implements ICaveService {
 	
 	@EJB
+	private BouteilleDao bouteilleDao;
+	
+	@EJB
 	private IBouteilleService bouteilleService;
 
-	/**
-	 * L'entrepot commun des services de gestion de cave.
-	 */
-	private Entrepot entrepot;
-	
-	public CaveService() {
-		super();
-	}
-	
-	public CaveService(Entrepot entrepot) {
-		super();
-		this.entrepot = entrepot;
-	}
-	
 	@Override
 	public void ajouterBouteille(final Bouteille bouteille, final Cave cave)
 			throws PlaceInsuffisanteException, BouteilleInexistanteException,
@@ -63,21 +51,8 @@ public class CaveService implements ICaveService {
 		if (!validerCave(cave))
 			throw new CaveInvalideException();
 		
-		// Nous vérifions qu'il reste de la place.
-		final Set<Cave> caves = entrepot.getCaves();
-		
-		// Lambdas voir :
-		// https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
-		final Cave caveDestinataire = caves.stream()
-			.filter(c -> c.getReference().equals(cave.getReference()))
-			.findFirst()
-			.orElseThrow(CaveInexistanteException::new);
-		
-		if (caveDestinataire.getCapaciteMaximale() > caveDestinataire.getBouteilles().size())
-			// Nous ajoutons la bouteille.
-			caveDestinataire.getBouteilles().put(bouteille.getReference(), bouteille);
-		else
-			throw new PlaceInsuffisanteException("Y a pas de place !");
+		// Nous persistons maintenant la bouteille fournie.
+		bouteilleDao.persister(bouteille);
 		
 	}
 
