@@ -53,6 +53,19 @@ public class BouteilleService implements IBouteilleService {
 		return bouteilleDao.persister(bouteille);
 	}
 	
+	public void supprimerBouteille(final String reference) {
+		
+		// Nous retirons la bouteille à supprimer de l'entrepot.
+		bouteilleDao.retirer(reference);
+	}
+	
+	@Override
+	public Bouteille modifierBouteille(Bouteille bouteille)
+			throws BouteilleInexistanteException, BouteilleInvalideException {
+
+		return bouteilleDao.modifier(bouteille);
+	}
+	
 	@Override
 	public List<Bouteille> obtenirBouteilles(Predicate<Bouteille> condition) throws IllegalArgumentException {
 		// TODO Auto-generated method stub

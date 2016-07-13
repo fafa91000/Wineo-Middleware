@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -103,9 +104,26 @@ public class BouteilleDao {
 		em.remove(em.getReference(Bouteille.class, reference));
 	}
 	
-	public void modifier(Bouteille bouteille) {
+	public Bouteille modifier(Bouteille bouteille) {
 		
-		em.merge(bouteille);
+		return em.merge(bouteille);
+	}
+	
+	public boolean exister(final String reference) {
+		
+		boolean resultat;
+		
+		try
+		{
+			em.getReference(Bouteille.class, reference);
+			resultat = true;
+		}
+		catch(EntityNotFoundException e)
+		{
+			resultat = false;
+		}
+		
+		return resultat;
 	}
 	
 }

@@ -24,6 +24,12 @@ public interface IBouteilleService {
 	public String consignerBouteille(final Bouteille bouteille)
 		throws BouteilleInvalideException, BouteilleDejaExistanteException;
 	
+	public void supprimerBouteille(final String reference)
+		throws BouteilleInexistanteException;
+	
+	public Bouteille modifierBouteille(final Bouteille bouteille)
+		throws BouteilleInexistanteException, BouteilleInvalideException;
+	
 	/**
 	 * Obtenir les bouteilles du catalogue selon une condition discriminante.
 	 * 

@@ -1,5 +1,8 @@
 package fr.doranco.wineo.middleware.webservices;
 
+import static javax.ws.rs.core.Response.Status.*;
+import static javax.ws.rs.core.Response.*;
+
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -66,13 +69,42 @@ public class BouteilleWebService {
 	}
 	
 	@PUT
-	public Bouteille modifierBouteille(
+	@Produces(value = MediaType.APPLICATION_JSON)
+	public Response modifierBouteille(
 			@FormParam("reference") String reference,
 			@FormParam("contenance") double contenance,
 			@FormParam("designation") String designation,
 			@FormParam("annee") int annee
-	) {
-		return null;
+	) throws BouteilleInexistanteException, BouteilleInvalideException {
+		
+		Bouteille bouteille = new Bouteille();
+		bouteille.setAnnee(annee);
+		bouteille.setContenance(contenance);
+		bouteille.setDesignation(designation);
+		bouteille.setReference(reference);
+
+		Response reponse = null;
+		
+		try {
+			
+			// Nous tentons de modifier notre bouteille.
+			final Bouteille bouteilleModifiee = bouteilleService.modifierBouteille(bouteille);
+			
+			reponse = ok(bouteilleModifiee).build();
+			
+		} catch (BouteilleInexistanteException e) {
+			
+			// Nous n'avons pu modifié une entitée inexistante : 404.
+			reponse = status(NOT_FOUND).build();
+			
+		} catch (BouteilleInvalideException e) {
+			
+			// Nous n'avons pu modifié une entitée invalide : 400.
+			reponse = status(BAD_REQUEST).build();
+			
+		}
+		
+		return reponse;
 	}
 	
 	@DELETE
@@ -81,7 +113,24 @@ public class BouteilleWebService {
 			@PathParam("reference") String reference
 	) {
 		
-		return Response.ok().build();
+		Response reponse = null;
+		
+		try {
+			
+			// Nous tentons de supprimer la bouteille depuis sa référence
+			bouteilleService.supprimerBouteille(reference);
+			// Nous répondons un HTTP 200 à notre client.
+			reponse = Response.ok().build();
+			
+		} catch(BouteilleInexistanteException e) {
+			
+			// Nous répondons un HTTP 404 à notre client.
+			reponse = Response.status(Status.NOT_FOUND).build();
+			
+		}
+		
+		// Nous retournons la réponse.
+		return reponse;
 	}
 	
 }
