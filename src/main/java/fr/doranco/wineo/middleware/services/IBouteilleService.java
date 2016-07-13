@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
+import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleDejaExistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInvalideException;
 import fr.doranco.wineo.middleware.objetmetier.contexte.ContexteConsommation;
@@ -17,6 +18,12 @@ import fr.doranco.wineo.middleware.objetmetier.fournisseur.Fournisseur;
  */
 public interface IBouteilleService {
 
+	public Bouteille obtenirBouteille(final String reference)
+		throws BouteilleInexistanteException;
+	
+	public String consignerBouteille(final Bouteille bouteille)
+		throws BouteilleInvalideException, BouteilleDejaExistanteException;
+	
 	/**
 	 * Obtenir les bouteilles du catalogue selon une condition discriminante.
 	 * 

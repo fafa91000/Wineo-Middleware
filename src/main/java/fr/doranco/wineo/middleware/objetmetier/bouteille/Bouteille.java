@@ -5,17 +5,14 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.rits.cloning.Cloner;
 
@@ -26,6 +23,7 @@ import com.rits.cloning.Cloner;
  */
 @Entity
 @Table(name = "T_BOUTEILLE")
+@XmlRootElement(name = "bipbop")
 public class Bouteille implements Cloneable, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -47,6 +45,7 @@ public class Bouteille implements Cloneable, Serializable {
 
 	@Id
 	@Column(name = "BOU_REFERENCE")
+	@XmlElement(name = "referenceUnique")
 	public String getReference() {
 		return reference;
 	}
@@ -80,15 +79,6 @@ public class Bouteille implements Cloneable, Serializable {
 
 	public void setAnnee(Integer annee) {
 		this.annee = annee;
-	}
-	
-	@OneToMany
-	public List<Recompense> getRecompenses() {
-		return recompenses;
-	}
-
-	public void setRecompenses(List<Recompense> recompenses) {
-		this.recompenses = recompenses;
 	}
 
 	@Override
