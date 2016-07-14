@@ -1,12 +1,12 @@
 package fr.doranco.wineo.middleware.services;
 
 import static org.fest.assertions.Assertions.assertThat;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
+import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleDejaExistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInvalideException;
 import fr.doranco.wineo.middleware.objetmetier.cave.Cave;
@@ -38,25 +39,25 @@ public class CaveServiceTest {
 	public void initialisation() {
 
 		// Initialisation des bouteilles
-		Bouteille bouteille1 = new Bouteille();
+		final Bouteille bouteille1 = new Bouteille();
 		bouteille1.setAnnee(2012);
 		bouteille1.setContenance(1d);
 		bouteille1.setDesignation("Ma bouteille de champomy");
 		bouteille1.setReference("REF_90");
 
-		Bouteille bouteille2 = new Bouteille();
+		final Bouteille bouteille2 = new Bouteille();
 		bouteille2.setAnnee(2011);
 		bouteille2.setContenance(1d);
 		bouteille2.setDesignation("Saint-Julien");
 		bouteille2.setReference("REF_91");
 
-		Bouteille bouteille3 = new Bouteille();
+		final Bouteille bouteille3 = new Bouteille();
 		bouteille3.setAnnee(2011);
 		bouteille3.setContenance(1d);
 		bouteille3.setDesignation("Lambrusco");
 		bouteille3.setReference("REF_92");
 
-		List<Bouteille> bouteilles = new ArrayList<>();
+		final List<Bouteille> bouteilles = new ArrayList<>();
 		bouteilles.add(bouteille1);
 		bouteilles.add(bouteille2);
 		bouteilles.add(bouteille3);
@@ -68,13 +69,13 @@ public class CaveServiceTest {
 		caveTestee.setNomProprietaire("Moi");
 		caveTestee.setReference("B");
 
-		Cave cave2 = new Cave();
+		final Cave cave2 = new Cave();
 		cave2.setBouteilles(new ArrayList<>());
 		cave2.setCapaciteMaximale(10);
 		cave2.setNomProprietaire("Moi");
 		cave2.setReference("C");
 
-		Set<Cave> caves = new HashSet<>();
+		final Set<Cave> caves = new HashSet<>();
 		caves.add(caveTestee);
 		caves.add(cave2);
 
@@ -92,7 +93,7 @@ public class CaveServiceTest {
 	@Test
 	@Ignore
 	public void testAjouterBouteilleNominal() throws PlaceInsuffisanteException, BouteilleInexistanteException,
-			CaveInexistanteException, BouteilleInvalideException, CaveInvalideException {
+			CaveInexistanteException, BouteilleInvalideException, CaveInvalideException, BouteilleDejaExistanteException {
 
 		// Initialisation du test
 		final Bouteille bouteilleAjoutee = new Bouteille();
@@ -122,7 +123,7 @@ public class CaveServiceTest {
 	@Test(expected = PlaceInsuffisanteException.class)
 	@Ignore
 	public void testAjouterBouteillePlaceInsuffisante() throws PlaceInsuffisanteException,
-			BouteilleInexistanteException, CaveInexistanteException, BouteilleInvalideException, CaveInvalideException {
+			BouteilleInexistanteException, CaveInexistanteException, BouteilleInvalideException, CaveInvalideException, BouteilleDejaExistanteException {
 
 		// Initialisation du test
 		final Bouteille bouteilleAjoutee = new Bouteille();
@@ -142,25 +143,25 @@ public class CaveServiceTest {
 	public void test_retirerBouteille_nominal() {
 
 		// Initialisation
-		CaveService caveService = new CaveService();
+		final CaveService caveService = new CaveService();
 
-		List<Bouteille> bouteilles = new ArrayList<>();
+		final List<Bouteille> bouteilles = new ArrayList<>();
 
-		Bouteille bouteille1 = Mockito.mock(Bouteille.class);
-		Bouteille bouteille2 = Mockito.mock(Bouteille.class);
-		Bouteille bouteille3 = Mockito.mock(Bouteille.class);
+		final Bouteille bouteille1 = Mockito.mock(Bouteille.class);
+		final Bouteille bouteille2 = Mockito.mock(Bouteille.class);
+		final Bouteille bouteille3 = Mockito.mock(Bouteille.class);
 
 		bouteilles.add(bouteille1);
 		bouteilles.add(bouteille2);
 		bouteilles.add(bouteille3);
 		
-		Cave cave = new Cave();
+		final Cave cave = new Cave();
 		cave.setBouteilles(bouteilles);
 		cave.setCapaciteMaximale(10);
 		cave.setNomProprietaire("Moi");
 		cave.setReference("Coucou!");
 
-		Integer nombreInitialBouteilles = cave.getBouteilles().size();
+		final Integer nombreInitialBouteilles = cave.getBouteilles().size();
 
 		// Lancement du test
 		caveService.retirerBouteille(bouteille1);
@@ -186,9 +187,9 @@ public class CaveServiceTest {
 	public void testAjouterBouteillesNominal() throws PlaceInsuffisanteException, BouteilleInexistanteException, CaveInexistanteException, BouteilleInvalideException, CaveInvalideException {
 		
 		// Initialisation du test
-		Bouteille bouteille1 = mock(Bouteille.class);
-		Bouteille bouteille2 = mock(Bouteille.class);
-		Bouteille bouteille3 = mock(Bouteille.class);
+		final Bouteille bouteille1 = mock(Bouteille.class);
+		final Bouteille bouteille2 = mock(Bouteille.class);
+		final Bouteille bouteille3 = mock(Bouteille.class);
 		
 		when(bouteille1.getReference()).thenReturn("REF_A01");
 		when(bouteille2.getReference()).thenReturn("REF_A02");
@@ -199,7 +200,7 @@ public class CaveServiceTest {
 		bouteilles.add(bouteille2);
 		bouteilles.add(bouteille3);
 		
-		Integer nombreBouteilleInitial = caveTestee.getBouteilles().size();
+		final Integer nombreBouteilleInitial = caveTestee.getBouteilles().size();
 		
 		// Lancement du test
 		caveService.ajouterBouteilles(bouteilles, caveTestee);

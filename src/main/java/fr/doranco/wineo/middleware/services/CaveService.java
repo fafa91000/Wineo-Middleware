@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import fr.doranco.wineo.middleware.dao.BouteilleDao;
 import fr.doranco.wineo.middleware.dao.CaveDao;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
+import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleDejaExistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInvalideException;
 import fr.doranco.wineo.middleware.objetmetier.cave.Cave;
@@ -37,7 +38,7 @@ public class CaveService implements ICaveService {
 	@Override
 	public void ajouterBouteille(final Bouteille bouteille, final Cave cave)
 			throws PlaceInsuffisanteException, BouteilleInexistanteException,
-			CaveInexistanteException, BouteilleInvalideException, CaveInvalideException {
+			CaveInexistanteException, BouteilleInvalideException, CaveInvalideException, BouteilleDejaExistanteException {
 		
 		// Nous vérifions que la bouteille existe.
 		if (bouteille == null)
@@ -65,30 +66,30 @@ public class CaveService implements ICaveService {
 	}
 
 	@Override
-	public void retirerBouteille(Bouteille bouteille) {
+	public void retirerBouteille(final Bouteille bouteille) {
 		
 	}
 
 	@Override
-	public Bouteille obtenirBouteille(String reference) {
+	public Bouteille obtenirBouteille(final String reference) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Bouteille> obtenirBouteille(Predicate<Bouteille> condition, Cave cave) {
+	public List<Bouteille> obtenirBouteille(final Predicate<Bouteille> condition, final Cave cave) {
 		
 		return null;
 	}
 
 	@Override
-	public Integer obtenirCapaciteRestante(Cave cave) {
+	public Integer obtenirCapaciteRestante(final Cave cave) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean verifierCapaciteRestante(Integer nombreBouteilleAjouter, Cave cave) {
+	public Boolean verifierCapaciteRestante(final Integer nombreBouteilleAjouter, final Cave cave) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -117,7 +118,7 @@ public class CaveService implements ICaveService {
 	}
 
 	@Override
-	public void ajouterBouteilles(Collection<Bouteille> bouteilles, Cave cave) throws PlaceInsuffisanteException,
+	public void ajouterBouteilles(final Collection<Bouteille> bouteilles, final Cave cave) throws PlaceInsuffisanteException,
 			BouteilleInexistanteException, CaveInexistanteException, BouteilleInvalideException, CaveInvalideException {
 		
 	}

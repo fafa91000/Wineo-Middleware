@@ -1,7 +1,9 @@
 package fr.doranco.wineo.middleware.webservices;
 
-import static javax.ws.rs.core.Response.Status.*;
-import static javax.ws.rs.core.Response.*;
+import static javax.ws.rs.core.Response.ok;
+import static javax.ws.rs.core.Response.status;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleDejaExistanteException;
@@ -34,15 +37,27 @@ public class BouteilleWebService {
 	@GET
 	@Path("/{reference}")
 	@Produces(value = MediaType.APPLICATION_JSON)
-	public Bouteille obtenirBouteille(
-			@PathParam("reference") String reference
-	) throws BouteilleInexistanteException {
+	public Response obtenirBouteille(
+			@PathParam("reference") final String reference
+	) {
 		
-		/*
-		 * Nous déléguons au service, la responsabilité
-		 * de connaitre les règles métier d'obtention d'une bouteille.
-		 */
-		return bouteilleService.obtenirBouteille(reference);
+		Response reponse = null;
+		
+		try
+		{
+			/*
+			 * Nous déléguons au service, la responsabilité
+			 * de connaitre les règles métier d'obtention d'une bouteille.
+			 */
+			final Bouteille bouteille = bouteilleService.obtenirBouteille(reference);
+			reponse = Response.ok(bouteille).build();
+		}
+		catch (final BouteilleInexistanteException e)
+		{
+			reponse = Response.status(NOT_FOUND).build();
+		}
+		
+		return reponse; 
 	}
 	
 	@GET
@@ -51,11 +66,11 @@ public class BouteilleWebService {
 	}
 	
 	@POST
-	public String creerBouteille(
-			@FormParam("contenance") double contenance,
-			@FormParam("designation") String designation,
-			@FormParam("annee") int annee
-	) throws BouteilleInvalideException, BouteilleDejaExistanteException {
+	public Response creerBouteille(
+			@FormParam("contenance") final double contenance,
+			@FormParam("designation") final String designation,
+			@FormParam("annee") final int annee
+	) {
 		
 		/*
 		 * Nous transformons les paramètres d'entrée du WS en un objet métier. 
@@ -65,19 +80,31 @@ public class BouteilleWebService {
 		bouteille.setContenance(contenance);
 		bouteille.setDesignation(designation);
 		
-		return bouteilleService.consignerBouteille(bouteille);
+		Response reponse = null;
+		
+		try
+		{
+			final String reference = bouteilleService.consignerBouteille(bouteille);
+			reponse = Response.ok(reference).build();
+		}
+		catch (BouteilleDejaExistanteException | BouteilleInvalideException e)
+		{
+			reponse = Response.status(BAD_REQUEST).build();
+		}
+		
+		return reponse;
 	}
 	
 	@PUT
 	@Produces(value = MediaType.APPLICATION_JSON)
 	public Response modifierBouteille(
-			@FormParam("reference") String reference,
-			@FormParam("contenance") double contenance,
-			@FormParam("designation") String designation,
-			@FormParam("annee") int annee
+			@FormParam("reference") final String reference,
+			@FormParam("contenance") final double contenance,
+			@FormParam("designation") final String designation,
+			@FormParam("annee") final int annee
 	) throws BouteilleInexistanteException, BouteilleInvalideException {
 		
-		Bouteille bouteille = new Bouteille();
+		final Bouteille bouteille = new Bouteille();
 		bouteille.setAnnee(annee);
 		bouteille.setContenance(contenance);
 		bouteille.setDesignation(designation);
@@ -92,12 +119,12 @@ public class BouteilleWebService {
 			
 			reponse = ok(bouteilleModifiee).build();
 			
-		} catch (BouteilleInexistanteException e) {
+		} catch (final BouteilleInexistanteException e) {
 			
 			// Nous n'avons pu modifié une entitée inexistante : 404.
 			reponse = status(NOT_FOUND).build();
 			
-		} catch (BouteilleInvalideException e) {
+		} catch (final BouteilleInvalideException e) {
 			
 			// Nous n'avons pu modifié une entitée invalide : 400.
 			reponse = status(BAD_REQUEST).build();
@@ -110,7 +137,7 @@ public class BouteilleWebService {
 	@DELETE
 	@Path("/{reference}")
 	public Response supprimerBouteille(
-			@PathParam("reference") String reference
+			@PathParam("reference") final String reference
 	) {
 		
 		Response reponse = null;
@@ -122,7 +149,7 @@ public class BouteilleWebService {
 			// Nous répondons un HTTP 200 à notre client.
 			reponse = Response.ok().build();
 			
-		} catch(BouteilleInexistanteException e) {
+		} catch(final BouteilleInexistanteException e) {
 			
 			// Nous répondons un HTTP 404 à notre client.
 			reponse = Response.status(Status.NOT_FOUND).build();

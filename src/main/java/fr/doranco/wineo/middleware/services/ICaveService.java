@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import fr.doranco.wineo.middleware.objetmetier.bouteille.Bouteille;
+import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleDejaExistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInexistanteException;
 import fr.doranco.wineo.middleware.objetmetier.bouteille.BouteilleInvalideException;
 import fr.doranco.wineo.middleware.objetmetier.cave.Cave;
@@ -16,7 +17,7 @@ public interface ICaveService {
 
 	public void ajouterBouteille(Bouteille bouteille, Cave cave)
 			throws PlaceInsuffisanteException, BouteilleInexistanteException,
-			CaveInexistanteException, BouteilleInvalideException, CaveInvalideException;
+			CaveInexistanteException, BouteilleInvalideException, CaveInvalideException, BouteilleDejaExistanteException;
 	
 	public void ajouterBouteilles(Collection<Bouteille> bouteilles, Cave cave)
 			throws PlaceInsuffisanteException, BouteilleInexistanteException,

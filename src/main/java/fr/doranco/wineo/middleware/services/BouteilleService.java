@@ -26,7 +26,7 @@ public class BouteilleService implements IBouteilleService {
 	// private CaveService caveService;
 
 	@Override
-	public Bouteille obtenirBouteille(String reference) throws BouteilleInexistanteException {
+	public Bouteille obtenirBouteille(final String reference) throws BouteilleInexistanteException {
 		
 		/*
 		 * Nous pouvons implémenter des règles métier ici.
@@ -53,47 +53,48 @@ public class BouteilleService implements IBouteilleService {
 		return bouteilleDao.persister(bouteille);
 	}
 	
-	public void supprimerBouteille(final String reference) {
+	@Override
+	public void supprimerBouteille(final String reference) throws BouteilleInexistanteException {
 		
 		// Nous retirons la bouteille à supprimer de l'entrepot.
 		bouteilleDao.retirer(reference);
 	}
 	
 	@Override
-	public Bouteille modifierBouteille(Bouteille bouteille)
+	public Bouteille modifierBouteille(final Bouteille bouteille)
 			throws BouteilleInexistanteException, BouteilleInvalideException {
 
 		return bouteilleDao.modifier(bouteille);
 	}
 	
 	@Override
-	public List<Bouteille> obtenirBouteilles(Predicate<Bouteille> condition) throws IllegalArgumentException {
+	public List<Bouteille> obtenirBouteilles(final Predicate<Bouteille> condition) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean exister(Predicate<Bouteille> condition) throws IllegalArgumentException {
+	public boolean exister(final Predicate<Bouteille> condition) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public List<Bouteille> selectionnerBouteilles(ContexteConsommation contexte)
+	public List<Bouteille> selectionnerBouteilles(final ContexteConsommation contexte)
 			throws IllegalArgumentException, ContexteConsommationInvalideException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Bouteille> obtenirBouteillesSemblables(Bouteille bouteille)
+	public List<Bouteille> obtenirBouteillesSemblables(final Bouteille bouteille)
 			throws BouteilleInvalideException, BouteilleInexistanteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Fournisseur> obtenirVendeurs(Bouteille bouteille)
+	public List<Fournisseur> obtenirVendeurs(final Bouteille bouteille)
 			throws BouteilleInvalideException, BouteilleInexistanteException {
 		// TODO Auto-generated method stub
 		return null;
